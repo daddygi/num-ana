@@ -2,10 +2,13 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import TemporaryDrawer from '../../components/MachineProblemDrawer';
+import * as math from 'mathjs';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  console.log('test');
+  console.log(math.derivative('math.acos(x)', 'x').evaluate({ x: 1 }));
   return (
     <>
       <Head>

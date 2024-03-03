@@ -47,7 +47,7 @@ function Index() {
 
   return (
     <>
-      <DrawerMenu />
+      {/* <DrawerMenu /> */}
       <Box sx={rootContainer}>
         <Box sx={mainContainer}>
           <Box sx={style}>
