@@ -1,48 +1,52 @@
-// import * as math from 'mathjs';
-
-// export default function getTaylor(degree) {
-//   let taylorEquation = `x`;
-//   for (let i = 2; i <= degree; i++) {
-//     const constant = math.pow(-1, i + 1);
-//     let temp;
-//     temp = `+${constant}/${i}x^${i}`;
-//     if (i % 2 == 0) {
-//       temp = `${constant}/${i}x^${i}`
-//     }
-//     taylorEquation += temp;
-//   }
-//   taylorEquation = math.parse(taylorEquation);
-//   return taylorEquation.toTex();
-// }
-//cos(x)
-// import * as math from 'mathjs';
-
-// export default function getTaylor(degree) {
-//   let taylorEquation = `1`; // Initial term for cos(x)
-//   for (let i = 2; i <= degree; i++) {
-//     const constant = math.pow(-1, i); // Change to generate alternating signs
-//     let temp;
-//     temp = `+${constant}/(${2 * i - 2}!)x^${2 * i - 2}`; // Change to generate terms for cos(x)
-//     if (i % 2 === 0) {
-//       temp = `${constant}/(${2 * i - 2}!)x^${2 * i - 2}`; // Adjust sign for even powers
-//     }
-//     taylorEquation += temp;
-//   }
-//   taylorEquation = math.parse(taylorEquation);
-//   return taylorEquation.toTex();
-// }
-
 import * as math from 'mathjs';
 
-export default function getTaylor(degree) {
-  let taylorEquation = `x`; // Initial term for acos(x)
+function getDerivatives(degree) {
+  let func = 'math.acos(x)';
+  let derivatives = [math.pi / 2];
+
   for (let i = 1; i <= degree; i++) {
-    const constant = math.pow(-1, i); // Generate alternating signs
-    const exponent = 2 * i + 1;
-    const factorial = math.factorial(2 * i);
-    const term = `${constant} x^${exponent} / ${factorial} `; // Generate terms for acos(x)
-    taylorEquation += i % 2 === 0 ? `+${term}` : `-${term}`; // Alternate signs
+    let newFunc = math.derivative(func, 'x');
+
+    if (i === 1) {
+      derivatives.push(newFunc.evaluate({ x: 0 })); // Evaluate the first derivative at x = xValue
+    } else {
+      for (let j = 2; j <= i; j++) {
+        newFunc = math.derivative(newFunc, 'x');
+      }
+
+      derivatives.push(newFunc.evaluate({ x: 0 })); // Evaluate the derivative at x = xValue
+    }
   }
-  taylorEquation = math.parse(taylorEquation);
-  return taylorEquation.toTex();
+
+  return derivatives;
+}
+
+export default function getTaylor(degree, xValue) {
+  const derivatives = getDerivatives(degree);
+  let taylorSeries = '';
+
+  for (let i = 0; i <= degree; i++) {
+    if (i === 0) {
+      taylorSeries += 'f(x) \\approx \\theta + ';
+    } else if (i === 1) {
+      taylorSeries +=
+        '\\left( \\frac{{d}}{{dx}} f(x) \\right)\\bigg|_{x=0} (x - x_0) + ';
+    } else {
+      taylorSeries +=
+        '\\frac{{1}}{{' +
+        i +
+        '!}} \\left( \\frac{{d^{' +
+        i +
+        '}}}{{dx^{' +
+        i +
+        '}}} f(x) \\right)\\bigg|_{x=0} (x - x_0)^{' +
+        i +
+        '} + ';
+    }
+  }
+
+  // Remove the extra ' + ' at the end
+  taylorSeries = taylorSeries.slice(0, -3);
+
+  return taylorSeries;
 }

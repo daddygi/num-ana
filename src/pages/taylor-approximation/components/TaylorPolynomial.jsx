@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Typography, TextField, Button, Box, FormGroup } from '@mui/material';
+import {
+  createTheme,
+  ThemeProvider,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  FormGroup,
+} from '@mui/material';
 
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
@@ -12,6 +20,14 @@ import {
   calculateTrueError,
   calculateRelativeError,
 } from '../../../functions/calculateApproximation';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#7469B6',
+    },
+  },
+});
 
 const outputContainer = {
   marginTop: '1em',
@@ -90,7 +106,7 @@ function TaylorPolynomial() {
   return (
     <Box sx={style}>
       <FormGroup sx={formStyle}>
-        <Typography variant="h2">cos^-1(x)</Typography>
+        <Typography variant="h2">cos^-1(x), a = 0</Typography>
 
         <Box sx={inputGroup}>
           <TextField
@@ -115,18 +131,25 @@ function TaylorPolynomial() {
           />
         </Box>
 
-        {!isCalculate && (
-          <Button variant="contained" type="submit" onClick={handleSubmit}>
-            {' '}
-            Calculate{' '}
-          </Button>
-        )}
-        {isCalculate && (
-          <Button variant="contained" onClick={handleReset}>
-            {' '}
-            Reset{' '}
-          </Button>
-        )}
+        <ThemeProvider theme={theme}>
+          {!isCalculate && (
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={handleSubmit}
+            >
+              {' '}
+              Calculate{' '}
+            </Button>
+          )}
+          {isCalculate && (
+            <Button variant="contained" color="primary" onClick={handleReset}>
+              {' '}
+              Reset{' '}
+            </Button>
+          )}
+        </ThemeProvider>
       </FormGroup>
       {/* where math equation happens */}
       {isCalculate && (
