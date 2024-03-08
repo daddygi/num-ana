@@ -10,6 +10,7 @@ import {
   FormGroup,
 } from '@mui/material';
 
+import * as math from 'mathjs';
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
 
@@ -163,7 +164,13 @@ function TaylorPolynomial() {
             <BlockMath>{`P_{${degree}}(x)=${taylorEquation}`}</BlockMath>
             <Typography sx={{ marginTop: '1em' }}>
               {' '}
-              {`True Value: ${taylorResult.trueValue}`}
+              {`True Value: arcos(${taylorValue}) = ${eval(
+                math.acos(taylorValue)
+              )}`}
+            </Typography>
+            <Typography sx={{ marginTop: '1em' }}>
+              {' '}
+              {`Approximated Value: ${taylorResult.trueValue}`}
             </Typography>
           </Box>
 
@@ -177,7 +184,7 @@ function TaylorPolynomial() {
               <Box sx={{ marginBottom: '1em' }}>
                 <Typography> True Error:</Typography>
                 <InlineMath>{`${calculateTrueError(
-                  taylorResult.trueValue,
+                  eval(math.acos(taylorValue)),
                   taylorResult.chopped
                 )}`}</InlineMath>
               </Box>
@@ -185,7 +192,7 @@ function TaylorPolynomial() {
               <Box sx={{ marginBottom: '1em' }}>
                 <Typography> Relative Error (%): </Typography>
                 <InlineMath>{`${calculateRelativeError(
-                  taylorResult.trueValue,
+                  eval(math.acos(taylorValue)),
                   taylorResult.chopped
                 )}`}</InlineMath>
               </Box>
@@ -201,7 +208,7 @@ function TaylorPolynomial() {
                 <Typography> True Error: </Typography>
                 <InlineMath>
                   {`${calculateTrueError(
-                    taylorResult.trueValue,
+                    eval(math.acos(taylorValue)),
                     taylorResult.rounded
                   )}`}
                 </InlineMath>
@@ -210,7 +217,7 @@ function TaylorPolynomial() {
               <Typography> Relative Error (%) </Typography>
               <InlineMath>
                 {`${calculateRelativeError(
-                  taylorResult.trueValue,
+                  eval(math.acos(taylorValue)),
                   taylorResult.rounded
                 )} `}
               </InlineMath>
