@@ -226,7 +226,7 @@ function TaylorPolynomial() {
         </>
       )}
 
-      {isCalculate && (
+      {/* {isCalculate && (
         <Typography sx={{ fontWeight: 'bold', marginBottom: '0.5em' }}>
           {`Answer = ${
             calculateTrueError(taylorResult.trueValue, taylorResult.chopped) <
@@ -235,7 +235,7 @@ function TaylorPolynomial() {
               : taylorResult.rounded
           }`}
         </Typography>
-      )}
+      )} */}
     </Box>
   );
 }
